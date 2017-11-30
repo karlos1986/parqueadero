@@ -1,0 +1,7 @@
+organization=karlos1986-github
+projectKey=parqueadre3569812345
+serverUrl=https://sonarcloud.io
+serverVersion=6.7.0.33301
+dashboardUrl=https://sonarcloud.io/dashboard/index/parqueadre3569812345
+ceTaskId=AWANtE-OyD-mer5uiAiY
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWANtE-OyD-mer5uiAiY
