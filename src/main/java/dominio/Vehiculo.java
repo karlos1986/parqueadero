@@ -13,16 +13,8 @@ public class Vehiculo {
 		return placa;
 	}
 
-	public void setPlaca(String placa) {
-		this.placa = placa;
-	}
-	
 	public int getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(int tipo) {
-		this.tipo = tipo;
-	}
-	
 }

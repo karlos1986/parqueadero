@@ -5,6 +5,7 @@ public class Parqueadero {
 	protected int celdas;
 	protected double valorHora;
 	protected double valorDia;
+	protected int corteCobroPorHoras;
 	
 	public Parqueadero() {
 		// TODO Auto-generated constructor stub
@@ -14,23 +15,16 @@ public class Parqueadero {
 		return valorHora;
 	}
 
-	public void setValorHora(double valorHora) {
-		this.valorHora = valorHora;
-	}
-
 	public double getValorDia() {
 		return valorDia;
-	}
-
-	public void setValorDia(double valorDia) {
-		this.valorDia = valorDia;
 	}
 
 	public int getCeldas() {
 		return celdas;
 	}
 
-	public void setCeldas(int celdas) {
-		this.celdas = celdas;
+	public int getcorteCobroPorHoras() {
+		return corteCobroPorHoras;
 	}
+
 }

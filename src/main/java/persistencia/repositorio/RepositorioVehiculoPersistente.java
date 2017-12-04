@@ -13,6 +13,8 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 	
 	private static final String PLACA = "AAA000";
 	private static final String VEHICULO_FIND_BY_PLACA = "Vehiculo.findByPlaca";
+	private static final String VEHICULO_FIND_VEHICULOS = "Vehiculo.findCountVehiculos";
+
 	private EntityManager entityManager;
 
 	public RepositorioVehiculoPersistente(EntityManager entityManager) {
@@ -39,9 +41,18 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 	public VehiculoEntity obtenerVehiculoEntityPorPlaca(String placa) {
 		
 		Query query = entityManager.createNamedQuery(VEHICULO_FIND_BY_PLACA);
-		query.setParameter(PLACA, placa);
+		query.setParameter("placa", placa);
 
 		return (VehiculoEntity) query.getSingleResult();
+	}
+	
+	@Override
+	public int obtenerCountVehiculos() {
+		
+		Query query = entityManager.createNamedQuery(VEHICULO_FIND_VEHICULOS);
+		System.out.println(query);
+
+		return (int) query.getSingleResult();
 	}
 
 

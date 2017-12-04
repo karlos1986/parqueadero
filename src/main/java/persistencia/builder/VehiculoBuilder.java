@@ -20,7 +20,10 @@ public class VehiculoBuilder {
 			VehiculoEntity vehiculoEntity = new VehiculoEntity();
 			vehiculoEntity.setPlaca(vehiculo.getPlaca());
 			vehiculoEntity.setTipo(vehiculo.getTipo());
-			vehiculoEntity.setCilindraje((vehiculo.getTipo()==1)?null:null);
+			if(vehiculo.getTipo()==2) {
+				Moto moto = (Moto) vehiculo ;
+				vehiculoEntity.setCilindraje(moto.getCilindraje());
+			}
 			return vehiculoEntity;
 		}
 		

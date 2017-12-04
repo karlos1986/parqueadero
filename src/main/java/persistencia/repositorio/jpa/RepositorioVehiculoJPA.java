@@ -10,5 +10,14 @@ public interface RepositorioVehiculoJPA {
 	 * @return
 	 */
 	VehiculoEntity obtenerVehiculoEntityPorPlaca(String placa);
+	
+	/**
+	 * Permite obtener los vehiculos en la BD
+	 * @param placa
+	 * @return
+	 */
+	int obtenerCountVehiculos();
+	
+	
 
 }

@@ -8,15 +8,11 @@ public class Moto extends Vehiculo  {
 		super();
 		this.placa = placa;
 		this.tipo = tipo;
-		this.setCilindraje(cilindraje);
+		this.cilindraje=cilindraje;
 	}
 
 	public int getCilindraje() {
 		return cilindraje;
-	}
-
-	public void setCilindraje(int cilindraje) {
-		this.cilindraje = cilindraje;
 	}
 
 }
