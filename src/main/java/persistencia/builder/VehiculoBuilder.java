@@ -8,7 +8,7 @@ import persistencia.entidad.VehiculoEntity;
 
 public class VehiculoBuilder {
 	
-	private VehiculoBuilder() {}
+	public VehiculoBuilder() {}
 		
 		public static Vehiculo convertirADominio(VehiculoEntity vehiculoEntity) {
 

@@ -1,5 +1,7 @@
 package dominio;
 
+import java.util.Date;
+
 public class ParqueaderoMoto extends Parqueadero {
 	
 	private static final int CELDAS = 10;
@@ -13,7 +15,7 @@ public class ParqueaderoMoto extends Parqueadero {
 	private int corteCobroPorCilindraje;
 	
 
-	public ParqueaderoMoto () {
+	public ParqueaderoMoto (Vehiculo vehiculo,Date dateIngreso) {
 		super();
 		this.celdas=CELDAS;
 		this.valorDia=VALOR_DIA;
@@ -21,9 +23,10 @@ public class ParqueaderoMoto extends Parqueadero {
 		this.corteCobroPorHoras = CORTE_COBRO_POR_HORAS;
 		this.cobroPorCilindraje = VALOR_POR_CILINDRAJE;
 		this.corteCobroPorCilindraje = CORTE_COBRO_POR_CILINDRAJE;
+		this.vehiculo = vehiculo;
+		this.dateIngreso = dateIngreso;
 	
 	}
-
 
 	public double getCobroPorCilindraje() {
 		return cobroPorCilindraje;

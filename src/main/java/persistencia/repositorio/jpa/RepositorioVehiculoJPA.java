@@ -9,7 +9,7 @@ public interface RepositorioVehiculoJPA {
 	 * @param placa
 	 * @return
 	 */
-	VehiculoEntity obtenerVehiculoEntityPorPlaca(String placa);
+//	VehiculoEntity obtenerVehiculoEntityPorPlaca(String placa);
 	
 	/**
 	 * Permite obtener los vehiculos en la BD

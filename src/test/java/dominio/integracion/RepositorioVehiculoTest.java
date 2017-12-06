@@ -1,26 +1,22 @@
 package dominio.integracion;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
-import javax.persistence.EntityManager;
-
-import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import dominio.Carro;
 import dominio.Moto;
 import dominio.repositorio.RepositorioVehiculo;
-import persistencia.repositorio.RepositorioVehiculoPersistente;
 import persistencia.sistema.SistemaDePersistencia;
 import testdatabuilder.CarroTestDataBuilder;
 import testdatabuilder.MotoTestDataBuilder;
 
 
-public class VigilanteTest {
+public class RepositorioVehiculoTest {
 	
 	private static final String PLACA = "AAA000";
+	private static final String PLACA1 = "BBB000";
 	private static final int TIPO_CARRO = 1;
 	private static final int TIPO_MOTO = 2;
 	private static final int CILINDRAJE_MOTO = 600;
@@ -33,15 +29,11 @@ public class VigilanteTest {
 	@Before
 	public void setUp() {
 		
-		sistemaPersistencia = new SistemaDePersistencia();
+		sistemaPersistencia = SistemaDePersistencia.getInstance();
 		repositorioVehiculo = sistemaPersistencia.obtenerRepositorioVehiculo();
-		sistemaPersistencia.iniciar();
+	
 	}
 	
-	@After
-	public void tearDown() {
-		sistemaPersistencia.terminar();
-	}
 
 	@Test
 	public void ingresarCarroBDTest() {
@@ -64,15 +56,15 @@ public class VigilanteTest {
 	public void ingresarMotoBDTest() {
 
 		// arrange
-		Moto moto = new MotoTestDataBuilder().conPlaca(PLACA).conTipo(TIPO_MOTO).conCilindraje(CILINDRAJE_MOTO).build();
+		Moto moto = new MotoTestDataBuilder().conPlaca(PLACA1).conTipo(TIPO_MOTO).conCilindraje(CILINDRAJE_MOTO).build();
 		
 		// act
 		repositorioVehiculo.agregar(moto);
-		moto = (Moto) repositorioVehiculo.obtenerPorPlaca(PLACA);
+		moto = (Moto) repositorioVehiculo.obtenerPorPlaca(PLACA1);
 		
 
 		// assert
-		assertEquals(PLACA, moto.getPlaca());
+		assertEquals(PLACA1, moto.getPlaca());
 		assertEquals(TIPO_MOTO, moto.getTipo());
 		assertEquals(CILINDRAJE_MOTO, moto.getCilindraje());		
 		

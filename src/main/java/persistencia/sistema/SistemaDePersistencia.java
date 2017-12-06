@@ -2,15 +2,26 @@ package persistencia.sistema;
 
 import javax.persistence.EntityManager;
 
+import dominio.repositorio.RepositorioParqueadero;
 import dominio.repositorio.RepositorioVehiculo;
 import persistencia.conexion.ConexionJPA;
+import persistencia.repositorio.RepositorioParqueaderoPersistente;
 import persistencia.repositorio.RepositorioVehiculoPersistente;
 
 
 public class SistemaDePersistencia {
 	private EntityManager entityManager;
+	
+	private static SistemaDePersistencia sistemaPersistencia;
+	
+	public static SistemaDePersistencia getInstance() {
+		if(sistemaPersistencia == null) {
+			sistemaPersistencia = new SistemaDePersistencia();
+		}
+		return sistemaPersistencia;
+	}
 
-	public SistemaDePersistencia() {
+	private SistemaDePersistencia() {
 		this.entityManager = new ConexionJPA().createEntityManager();
 	}
 
@@ -18,9 +29,9 @@ public class SistemaDePersistencia {
 		return new RepositorioVehiculoPersistente(entityManager);
 	}
 	
-	/*public RepositorioPrestamo obtenerRepositorioPrestamos() {
-		return new RepositorioPrestamoPersistente(entityManager, this.obtenerRepositorioVehiculo());
-	}*/
+	public RepositorioParqueadero obtenerRepositorioParqueadero() {
+		return new RepositorioParqueaderoPersistente(entityManager);
+	}
 
 	public void iniciar() {
 		entityManager.getTransaction().begin();

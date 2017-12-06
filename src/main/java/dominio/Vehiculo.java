@@ -1,6 +1,6 @@
 package dominio;
 
-public class Vehiculo {
+public abstract class Vehiculo {
 	
 	protected String placa;
 	protected int tipo;// 1 -> carro , 2 -> moto

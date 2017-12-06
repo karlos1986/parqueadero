@@ -1,6 +1,7 @@
 package dominio.repositorio;
 
 import dominio.Vehiculo;
+import persistencia.entidad.VehiculoEntity;
 
 public interface RepositorioVehiculo {
 	
@@ -12,10 +13,12 @@ public interface RepositorioVehiculo {
 	Vehiculo obtenerPorPlaca(String placa);
 
 	/**
-	 * Permite agregar un libro al repositorio
-	 * @param libro
+	 * Permite agregar un vehiculo al repositorio
+	 * @param vehiculo
 	 */
 	void agregar(Vehiculo vehiculo);
+	
+	VehiculoEntity obtenerVehiculoEntityPorPlaca(String placa);
 
 
 }

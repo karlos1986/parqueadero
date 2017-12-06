@@ -11,7 +11,6 @@ import javax.persistence.NamedQuery;
 @Entity(name = "Vehiculo")
 @NamedQueries({ @NamedQuery(name = "Vehiculo.findByPlaca", query = "SELECT vehiculo FROM Vehiculo vehiculo WHERE vehiculo.placa = :placa")})	
 
-
 public class VehiculoEntity {
 	
 	@Id
@@ -26,7 +25,7 @@ public class VehiculoEntity {
 
 	@Column(nullable = true)
 	private Integer cilindraje;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -58,6 +57,7 @@ public class VehiculoEntity {
 	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
 	}
+	
 }
 
 

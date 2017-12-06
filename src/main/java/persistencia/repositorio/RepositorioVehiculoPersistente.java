@@ -11,7 +11,7 @@ import persistencia.repositorio.jpa.RepositorioVehiculoJPA;
 
 public class RepositorioVehiculoPersistente implements RepositorioVehiculo, RepositorioVehiculoJPA{
 	
-	private static final String PLACA = "AAA000";
+	private static final String PLACA = "placa";
 	private static final String VEHICULO_FIND_BY_PLACA = "Vehiculo.findByPlaca";
 	private static final String VEHICULO_FIND_VEHICULOS = "Vehiculo.findCountVehiculos";
 
@@ -33,15 +33,16 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 
 	@Override
 	public void agregar(Vehiculo vehiculo) {
-		
+		entityManager.getTransaction().begin();
 		entityManager.persist(VehiculoBuilder.convertirAEntity(vehiculo));
+		entityManager.getTransaction().commit();
 	}
 
 	@Override
 	public VehiculoEntity obtenerVehiculoEntityPorPlaca(String placa) {
 		
 		Query query = entityManager.createNamedQuery(VEHICULO_FIND_BY_PLACA);
-		query.setParameter("placa", placa);
+		query.setParameter(PLACA, placa);
 
 		return (VehiculoEntity) query.getSingleResult();
 	}
@@ -50,7 +51,6 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 	public int obtenerCountVehiculos() {
 		
 		Query query = entityManager.createNamedQuery(VEHICULO_FIND_VEHICULOS);
-		System.out.println(query);
 
 		return (int) query.getSingleResult();
 	}
