@@ -2,6 +2,7 @@ package persistencia.entidad;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,10 @@ import javax.persistence.OneToOne;
 
 
 @Entity(name = "Parqueadero")
-@NamedQueries({ @NamedQuery(name = "Parqueadero.findByPlaca", query = "SELECT parqueadero FROM Parqueadero parqueadero WHERE parqueadero.vehiculo.placa = :placa")})	
+@NamedQueries({ @NamedQuery(name = "Parqueadero.findByPlaca", query = "SELECT parqueadero FROM Parqueadero parqueadero WHERE parqueadero.vehiculo.placa = :placa"),
+	@NamedQuery(name = "Parqueadero.findCeldasMoto", query = "SELECT COUNT (*) FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.tipo = 2 "),
+	@NamedQuery(name = "Parqueadero.findCeldasCarro", query = "SELECT COUNT (*) FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.tipo = 1 "),
+	@NamedQuery(name = "Parqueadero.findForVehiculo", query = "SELECT parqueadero FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.placa = :placa")})	
 
 public class ParqueaderoEntity {
 	
@@ -22,7 +26,7 @@ public class ParqueaderoEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="idVehiculo")
 	private VehiculoEntity vehiculo;
 

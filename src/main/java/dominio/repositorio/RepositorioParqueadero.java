@@ -5,15 +5,20 @@ import persistencia.entidad.ParqueaderoEntity;
 
 public interface RepositorioParqueadero {
 	
-	/**
-	 * Permite obtener un parqueadero dada una placa
-	 * @param placa
-	 * @return
-	 */
-	Parqueadero obtenerPorPlaca(String placa);
 	
+	Parqueadero obtenerPorPlaca(String placa);
 	
 	ParqueaderoEntity obtenerParqueaderoEntityPorPlaca(String placa);
 	
+	ParqueaderoEntity obtenerParqueaderoEntity(String placa);
+
 	void agregar(ParqueaderoEntity parqueaderoEntity);
+	
+	int consultarCarrosEnElParqueadero();
+	
+	int consultarMotosEnElParqueados();
+	
+	void registrarSalidaVehiculo();
+	
+	public void borrarContenidoTablaParqueadero() ;
 }

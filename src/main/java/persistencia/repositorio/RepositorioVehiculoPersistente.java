@@ -14,6 +14,8 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 	private static final String PLACA = "placa";
 	private static final String VEHICULO_FIND_BY_PLACA = "Vehiculo.findByPlaca";
 	private static final String VEHICULO_FIND_VEHICULOS = "Vehiculo.findCountVehiculos";
+	private static final String DELETE_VEHICULO = "delete Vehiculo";
+
 
 	private EntityManager entityManager;
 
@@ -51,9 +53,14 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 	public int obtenerCountVehiculos() {
 		
 		Query query = entityManager.createNamedQuery(VEHICULO_FIND_VEHICULOS);
-
 		return (int) query.getSingleResult();
 	}
 
 
+	@Override
+	public void borrarContenidoTablaVehiculo() {
+		entityManager.getTransaction().begin();
+		entityManager.createNativeQuery(DELETE_VEHICULO).executeUpdate();
+		entityManager.getTransaction().commit();
+	}
 }

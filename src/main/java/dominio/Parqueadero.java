@@ -42,6 +42,10 @@ public abstract class Parqueadero {
 		return dateEgreso;
 	}
 	
+	public void setDateEgreso(Date dateEgreso) {
+		this.dateEgreso = dateEgreso;
+	}
+	
 	public Vehiculo getVehiculo() {
 		return vehiculo;
 	}

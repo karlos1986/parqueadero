@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +22,7 @@ public class RepositorioParqueaderoTest {
 	
 	private static final String PLACA = "AAA001";
 	private static final String PLACA1 = "BBB001";
+	private static final String PLACA2 = "BBB002";
 	private static final int TIPO_CARRO = 1;
 	private static final int TIPO_MOTO = 2;
 	private static final int CILINDRAJE_MOTO = 600;
@@ -37,6 +39,12 @@ public class RepositorioParqueaderoTest {
 		repositorioParqueadero = sistemaPersistencia.obtenerRepositorioParqueadero();
 		repositorioVehiculo = sistemaPersistencia.obtenerRepositorioVehiculo();
 	}
+	@After
+	public void setDown() {		
+		repositorioParqueadero.borrarContenidoTablaParqueadero();
+		repositorioVehiculo.borrarContenidoTablaVehiculo();
+	}
+	
 	
 	@Test
 	public void ingresarParqueaderoCarroBDTest() {
@@ -82,4 +90,64 @@ public class RepositorioParqueaderoTest {
 		assertEquals(parqueaderoMoto.getVehiculo().getTipo(), resultParqueaderoMoto.getVehiculo().getTipo());
 		
 	}
+	
+	@Test
+	public void consultarCarrosParqueadosVacioTest() {
+
+		// arrange
+		int carrosParqueados = 0;
+		// act 
+		carrosParqueados = repositorioParqueadero.consultarCarrosEnElParqueadero();
+		// assert
+		assertEquals(0,carrosParqueados);
+		
+	}
+	
+	@Test
+	public void consultarCarrosParqueadosTest() {
+
+		// arrange
+		int carrosParqueados = 0;
+		Carro carro = new Carro(PLACA1,TIPO_CARRO);
+		repositorioVehiculo.agregar(carro);
+		ParqueaderoCarro parqueaderoCarro = new ParqueaderoCarro(carro,new Date());
+		ParqueaderoEntity parqueaderoEntity = ParqueaderoBuilder.convertirAEntity(parqueaderoCarro);
+		parqueaderoEntity.setVehiculo(repositorioVehiculo.obtenerVehiculoEntityPorPlaca(PLACA1));
+		repositorioParqueadero.agregar(parqueaderoEntity);
+		carro = new Carro(PLACA2,TIPO_CARRO);
+		repositorioVehiculo.agregar(carro);
+		parqueaderoCarro = new ParqueaderoCarro(carro,new Date());
+		parqueaderoEntity = ParqueaderoBuilder.convertirAEntity(parqueaderoCarro);
+		parqueaderoEntity.setVehiculo(repositorioVehiculo.obtenerVehiculoEntityPorPlaca(PLACA2));
+		repositorioParqueadero.agregar(parqueaderoEntity);
+		
+		// act 
+		carrosParqueados = repositorioParqueadero.consultarCarrosEnElParqueadero();
+		
+		// assert
+		assertEquals(2,carrosParqueados);
+		
+	}
+	
+	@Test
+	public void consultarMotosParqueadosTest() {
+
+		// arrange
+		int carrosParqueados = 0;
+		Moto moto = new Moto(PLACA1,TIPO_MOTO,CILINDRAJE_MOTO);
+		repositorioVehiculo.agregar(moto);
+		ParqueaderoMoto parqueaderoMoto = new ParqueaderoMoto(moto,new Date());
+		ParqueaderoEntity parqueaderoEntity = ParqueaderoBuilder.convertirAEntity(parqueaderoMoto);
+		parqueaderoEntity.setVehiculo(repositorioVehiculo.obtenerVehiculoEntityPorPlaca(PLACA1));
+		repositorioParqueadero.agregar(parqueaderoEntity);
+
+		// act 
+		carrosParqueados = repositorioParqueadero.consultarMotosEnElParqueados();
+		
+		// assert
+		assertEquals(1,carrosParqueados);
+		
+	}
+	
+	
 }
