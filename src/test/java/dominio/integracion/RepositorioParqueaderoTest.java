@@ -149,5 +149,27 @@ public class RepositorioParqueaderoTest {
 		
 	}
 	
+	@Test
+	public void registrarSalidaVehiculoTest() {
+
+		// arrange
+		Moto moto = new Moto(PLACA1,TIPO_MOTO,CILINDRAJE_MOTO);
+		repositorioVehiculo.agregar(moto);
+		ParqueaderoMoto parqueaderoMoto = new ParqueaderoMoto(moto,new Date());
+		ParqueaderoEntity parqueaderoEntity = ParqueaderoBuilder.convertirAEntity(parqueaderoMoto);
+		parqueaderoEntity.setVehiculo(repositorioVehiculo.obtenerVehiculoEntityPorPlaca(PLACA1));
+		repositorioParqueadero.agregar(parqueaderoEntity);
+		ParqueaderoMoto resultParqueaderoMoto = null;
+		Date date = new Date();
+
+		// act 
+		repositorioParqueadero.registrarSalidaVehiculo(PLACA1,date);
+		resultParqueaderoMoto = (ParqueaderoMoto) repositorioParqueadero.obtenerPorPlaca(PLACA1);
+		
+		// assert
+		assertEquals(PLACA1,resultParqueaderoMoto.getVehiculo().getPlaca());
+		assertEquals(date.getTime(),resultParqueaderoMoto.getDateEgreso().getTime());	
+	}
+	
 	
 }

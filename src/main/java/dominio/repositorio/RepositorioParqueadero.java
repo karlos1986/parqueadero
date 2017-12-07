@@ -1,5 +1,7 @@
 package dominio.repositorio;
 
+import java.util.Date;
+
 import dominio.Parqueadero;
 import persistencia.entidad.ParqueaderoEntity;
 
@@ -18,7 +20,7 @@ public interface RepositorioParqueadero {
 	
 	int consultarMotosEnElParqueados();
 	
-	void registrarSalidaVehiculo();
+	void registrarSalidaVehiculo(String Placa,Date date);
 	
 	public void borrarContenidoTablaParqueadero() ;
 }

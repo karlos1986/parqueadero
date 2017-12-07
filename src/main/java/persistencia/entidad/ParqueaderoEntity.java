@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -19,7 +20,6 @@ import javax.persistence.OneToOne;
 	@NamedQuery(name = "Parqueadero.findCeldasMoto", query = "SELECT COUNT (*) FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.tipo = 2 "),
 	@NamedQuery(name = "Parqueadero.findCeldasCarro", query = "SELECT COUNT (*) FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.tipo = 1 "),
 	@NamedQuery(name = "Parqueadero.findForVehiculo", query = "SELECT parqueadero FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.placa = :placa")})	
-
 public class ParqueaderoEntity {
 	
 	@Id

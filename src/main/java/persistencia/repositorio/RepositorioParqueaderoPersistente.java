@@ -1,5 +1,7 @@
 package persistencia.repositorio;
 
+import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -17,8 +19,6 @@ public class RepositorioParqueaderoPersistente implements RepositorioParqueadero
 	private static final String DELETE_PARQUEADERO = "delete Parqueadero";
 	private static final String PARQUEADERO_FIND_BY_VEHICULO= "Parqueadero.findForVehiculo";
 
-
-
 	private EntityManager entityManager;
 
 	public RepositorioParqueaderoPersistente(EntityManager entityManager) {
@@ -31,7 +31,6 @@ public class RepositorioParqueaderoPersistente implements RepositorioParqueadero
 		
 		Query query = entityManager.createNamedQuery(PARQUEADERO_FIND_BY_PLACA);
 		query.setParameter(PLACA, placa);
-
 		return (ParqueaderoEntity) query.getSingleResult();
 	}
 
@@ -78,14 +77,15 @@ public class RepositorioParqueaderoPersistente implements RepositorioParqueadero
 	public ParqueaderoEntity obtenerParqueaderoEntity(String placa) {
 		Query query = entityManager.createNamedQuery(PARQUEADERO_FIND_BY_VEHICULO);
 		query.setParameter(PLACA, placa);
-
 		return (ParqueaderoEntity) query.getSingleResult();
 	}
 
 	@Override
-	public void registrarSalidaVehiculo() {
+	public void registrarSalidaVehiculo(String placa,Date date) {
 		entityManager.getTransaction().begin();
-		entityManager.createNativeQuery(DELETE_PARQUEADERO).executeUpdate();
+		ParqueaderoEntity parqueaderoEntity = obtenerParqueaderoEntityPorPlaca(placa);
+		parqueaderoEntity.setDateEgreso(date);
+		entityManager.merge(parqueaderoEntity);
 		entityManager.getTransaction().commit();
 	}
 

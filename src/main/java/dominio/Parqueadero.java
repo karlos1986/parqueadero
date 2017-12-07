@@ -15,7 +15,7 @@ public abstract class Parqueadero {
 
 	
 	public Parqueadero() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public double getValorHora() {

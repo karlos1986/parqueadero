@@ -2,13 +2,15 @@ package persistencia.sistema;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.stereotype.Component;
+
 import dominio.repositorio.RepositorioParqueadero;
 import dominio.repositorio.RepositorioVehiculo;
 import persistencia.conexion.ConexionJPA;
 import persistencia.repositorio.RepositorioParqueaderoPersistente;
 import persistencia.repositorio.RepositorioVehiculoPersistente;
 
-
+@Component
 public class SistemaDePersistencia {
 	private EntityManager entityManager;
 	

@@ -6,7 +6,7 @@ public abstract class Vehiculo {
 	protected int tipo;// 1 -> carro , 2 -> moto
 	
 	public Vehiculo() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public String getPlaca() {

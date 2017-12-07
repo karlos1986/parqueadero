@@ -16,6 +16,8 @@ import dominio.ParqueaderoMoto;
 import dominio.Vigilante;
 import dominio.repositorio.RepositorioParqueadero;
 import dominio.repositorio.RepositorioVehiculo;
+import persistencia.builder.ParqueaderoBuilder;
+import persistencia.entidad.ParqueaderoEntity;
 import persistencia.sistema.SistemaDePersistencia;
 
 public class VigilanteTest {
@@ -26,7 +28,12 @@ public class VigilanteTest {
 	private static final int TIPO_CARRO = 1;
 	private static final int TIPO_MOTO = 2;
 	private static final int CILINDRAJE_MOTO = 600;
-	private static final Date FECHA_ACTUAL = new Date();;
+	private static final int CILINDRAJE_MOTO_MENOR = 400;
+	private static final Date FECHA_ACTUAL = new Date();
+	private static final double VALOR_TOTAL = 0;
+	private static final double VALOR_TOTAL_MOTO_600CC = 2000;
+
+
 	
 	private RepositorioVehiculo repositorioVehiculo;
 	private SistemaDePersistencia sistemaPersistencia;
@@ -74,6 +81,7 @@ public class VigilanteTest {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void parquearMoto(){
 		
@@ -98,5 +106,51 @@ public class VigilanteTest {
 
 		
 	}
-
+	
+	@Test
+	public void salidaVehiculoCarroTest(){
+		
+		// arrange
+		Carro carro = new Carro(PLACA,TIPO_CARRO);
+		Vigilante vigilante = new Vigilante(repositorioVehiculo,repositorioParqueadero);
+		vigilante.parquearCarro(carro);
+		
+		// act 
+		double valorTotal = vigilante.salidaVehiculo(carro);
+		
+		// assert
+		assertEquals(VALOR_TOTAL,valorTotal,0.00);	
+	}
+	
+	@Test
+	public void salidaVehiculoMotoTest(){
+		
+		// arrange
+		Moto moto = new Moto(PLACA,TIPO_MOTO,CILINDRAJE_MOTO);
+		Vigilante vigilante = new Vigilante(repositorioVehiculo,repositorioParqueadero);
+		vigilante.parquearMoto(moto);
+		
+		// act 
+		double valorTotal = vigilante.salidaVehiculo(moto);
+		
+		// assert
+		assertEquals(VALOR_TOTAL_MOTO_600CC,valorTotal,0.00);	
+	}
+	
+	@Test
+	public void salidaVehiculoMotoTest1(){
+		
+		// arrange
+		Moto moto = new Moto(PLACA,TIPO_MOTO,CILINDRAJE_MOTO_MENOR);
+		Vigilante vigilante = new Vigilante(repositorioVehiculo,repositorioParqueadero);
+		vigilante.parquearMoto(moto);
+		
+		// act 
+		double valorTotal = vigilante.salidaVehiculo(moto);
+		
+		// assert
+		assertEquals(VALOR_TOTAL,valorTotal,0.00);	
+	}
+	
+	
 }

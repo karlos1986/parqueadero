@@ -36,6 +36,7 @@ public class ParqueaderoBuilder {
 						parqueaderoEntity.getDateIngreso());
 				break;
 		}
+		parqueadero.setDateEgreso((parqueaderoEntity.getDateEgreso() != null)?parqueaderoEntity.getDateEgreso():null);
 		return parqueadero;	
 	}
 
