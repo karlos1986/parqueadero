@@ -1,6 +1,9 @@
 package servicio;
 
 
+import java.util.List;
+
+import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import dominio.Carro;
 import dominio.Moto;
+import dominio.Parqueadero;
+import dominio.Vehiculo;
 import dominio.Vigilante;
 import dominio.excepcion.IngresarExcepcion;
 import dominio.repositorio.RepositorioParqueadero;
@@ -36,6 +41,9 @@ public class ServicioIngresar {
 	public String ingresarVehiculo(String placa, int tipo, int cilindraje) {
 		try {
 			Vigilante vigilante = new Vigilante(repositorioVehiculo, repositorioParqueadero);
+			if(repositorioParqueadero.obtenerParqueaderoEntity(placa) != null) {
+				return El_VEHICULO_SE_ENCUENTRA_EN_EL_PARQUEADERO;
+			}
 			if (tipo == 1) {
 				Carro carro = new Carro(placa, tipo);
 				vigilante.registrarVehiculo(carro);
@@ -49,10 +57,22 @@ public class ServicioIngresar {
 			return "No Se Ingreso El Vehiculo";
 		} catch (IngresarExcepcion e) {
 			return e.getMessage();
-		}catch(NonUniqueResultException n) {
-			return El_VEHICULO_SE_ENCUENTRA_EN_EL_PARQUEADERO;
-		}
-		
+		}	
+	}
+
+	public double salidaVehiculos(String placa) {
+		try {
+			Vigilante vigilante = new Vigilante(repositorioVehiculo, repositorioParqueadero);
+			Vehiculo vehiculo = repositorioVehiculo.obtenerPorPlaca(placa);
+			return (vehiculo == null)? 0.00 : vigilante.salidaVehiculo(vehiculo);
+		}catch(NoResultException e) {
+			return 0.00;
+		}	
+	}
+	
+	public List<Parqueadero> listaDeVehiculos(){
+		Vigilante vigilante = new Vigilante(repositorioVehiculo, repositorioParqueadero);
+		return vigilante.consultarParqueadero();
 	}
 }
 

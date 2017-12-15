@@ -127,6 +127,8 @@ public class VigilanteTest {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(fechaConHora);
 			boolean diaDomingoLunes = vigilante.validarCondicionDias(calendar);
+			
+			assertTrue(diaDomingoLunes);
 
 		} catch (ParseException e) {
 			e.printStackTrace();

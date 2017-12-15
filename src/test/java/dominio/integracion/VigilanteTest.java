@@ -59,7 +59,7 @@ public class VigilanteTest {
 	public void parquearCarro(){
 		
 		// arrange
-		Carro carro = new Carro(PLACA,TIPO_CARRO);
+		Carro carro = new Carro(PLACA1,TIPO_CARRO);
 		Vigilante vigilante = new Vigilante(repositorioVehiculo,repositorioParqueadero);
 		ParqueaderoCarro resultParqueaderoCarro = null;
 		
@@ -69,7 +69,7 @@ public class VigilanteTest {
 		resultParqueaderoCarro = (ParqueaderoCarro) repositorioParqueadero.obtenerPorPlaca(carro.getPlaca()) ;
 		
 		// assert
-		assertEquals(PLACA, resultParqueaderoCarro.getVehiculo().getPlaca());
+		assertEquals(PLACA1, resultParqueaderoCarro.getVehiculo().getPlaca());
 		assertEquals(TIPO_CARRO,  resultParqueaderoCarro.getVehiculo().getTipo());
 		assertEquals(FECHA_ACTUAL.getMinutes(),resultParqueaderoCarro.getDateIngreso().getMinutes());
 		assertEquals(FECHA_ACTUAL.getHours(),resultParqueaderoCarro.getDateIngreso().getHours());
@@ -86,7 +86,7 @@ public class VigilanteTest {
 	public void parquearMoto(){
 		
 		// arrange
-		Moto moto = new Moto(PLACA,TIPO_MOTO,CILINDRAJE_MOTO);
+		Moto moto = new Moto(PLACA1,TIPO_MOTO,CILINDRAJE_MOTO);
 		Vigilante vigilante = new Vigilante(repositorioVehiculo,repositorioParqueadero);
 		ParqueaderoMoto resultParqueaderoMoto = null;
 	
@@ -95,7 +95,7 @@ public class VigilanteTest {
 		resultParqueaderoMoto = (ParqueaderoMoto) repositorioParqueadero.obtenerPorPlaca(moto.getPlaca()) ;
 		
 		// assert
-		assertEquals(PLACA, resultParqueaderoMoto.getVehiculo().getPlaca());
+		assertEquals(PLACA1, resultParqueaderoMoto.getVehiculo().getPlaca());
 		assertEquals(TIPO_MOTO,  resultParqueaderoMoto.getVehiculo().getTipo());
 		assertEquals(FECHA_ACTUAL.getMinutes(), resultParqueaderoMoto.getDateIngreso().getMinutes());
 		assertEquals(FECHA_ACTUAL.getHours(), resultParqueaderoMoto.getDateIngreso().getHours());

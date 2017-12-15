@@ -2,6 +2,7 @@ package dominio;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import dominio.excepcion.IngresarExcepcion;
 import dominio.repositorio.RepositorioParqueadero;
@@ -40,11 +41,11 @@ public class Vigilante {
 	}
 	
 	public boolean validarCeldaDisponibleMoto() {
-		return (repositorioParqueadero.consultarMotosEnElParqueados() < 2/*10*/)?true:false;
+		return (repositorioParqueadero.consultarMotosEnElParqueados() < 10)?true:false;
 	}
 
 	public boolean validarCeldaDisponibleCarro() {
-		return (repositorioParqueadero.consultarCarrosEnElParqueadero() < 3/*20*/)?true:false;
+		return (repositorioParqueadero.consultarCarrosEnElParqueadero() < 20)?true:false;
 	}
 
 	public void parquearMoto(Vehiculo vehiculo) {
@@ -70,7 +71,7 @@ public class Vigilante {
 	}
 
 	public boolean validarCondicionDias(Calendar calendar) {
-		if (calendar.get(Calendar.DAY_OF_WEEK) == 1 || calendar.get(Calendar.DAY_OF_WEEK) == 2){//1 -> Domingo , 2 -> Lunes
+		if (calendar.get(Calendar.DAY_OF_WEEK) != 1 || calendar.get(Calendar.DAY_OF_WEEK) != 2){//1 -> Domingo , 2 -> Lunes
 				return true;		
 		}
 		return false;
@@ -129,11 +130,14 @@ public class Vigilante {
 		}
 	}
 
-	public boolean consultarVehiculos() {
-		return false;
-		
+	public List<Vehiculo> consultarVehiculos() {
+		List<Vehiculo> vehiculos = repositorioVehiculo.consultarVehiculos();
+        return vehiculos;
 	}
-
 	
+	public List<Parqueadero> consultarParqueadero() {
+		List<Parqueadero> parqueadero = repositorioParqueadero.consultarParqueadero();
+        return parqueadero;
+	}
 
 }

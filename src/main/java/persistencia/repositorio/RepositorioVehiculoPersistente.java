@@ -1,6 +1,9 @@
 package persistencia.repositorio;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import dominio.Vehiculo;
@@ -15,6 +18,7 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 	private static final String VEHICULO_FIND_BY_PLACA = "Vehiculo.findByPlaca";
 	private static final String VEHICULO_FIND_VEHICULOS = "Vehiculo.findCountVehiculos";
 	private static final String DELETE_VEHICULO = "delete Vehiculo";
+	private static final String VEHICULOS_FIND = "Vehiculo.findVehiculos";
 
 
 	private EntityManager entityManager;
@@ -27,17 +31,22 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 
 	@Override
 	public Vehiculo obtenerPorPlaca(String placa) {
-		
-		VehiculoEntity vehiculoEntity = obtenerVehiculoEntityPorPlaca(placa);
+		try {
+			VehiculoEntity vehiculoEntity = obtenerVehiculoEntityPorPlaca(placa);
+			return VehiculoBuilder.convertirADominio(vehiculoEntity);
+		} catch (NoResultException e) {
+			return null;
+		}
 
-		return VehiculoBuilder.convertirADominio(vehiculoEntity);
 	}
 
 	@Override
 	public void agregar(Vehiculo vehiculo) {
-		entityManager.getTransaction().begin();
-		entityManager.persist(VehiculoBuilder.convertirAEntity(vehiculo));
-		entityManager.getTransaction().commit();
+		if(obtenerPorPlaca(vehiculo.getPlaca()) == null) {
+			entityManager.getTransaction().begin();
+			entityManager.persist(VehiculoBuilder.convertirAEntity(vehiculo));
+			entityManager.getTransaction().commit();
+		}
 	}
 
 	@Override
@@ -46,7 +55,7 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 		Query query = entityManager.createNamedQuery(VEHICULO_FIND_BY_PLACA);
 		query.setParameter(PLACA, placa);
 
-		return (VehiculoEntity) query.getSingleResult();
+		return (VehiculoEntity) query.getSingleResult();	
 	}
 	
 	@Override
@@ -62,5 +71,13 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery(DELETE_VEHICULO).executeUpdate();
 		entityManager.getTransaction().commit();
+	}
+
+
+	@Override
+	public List<Vehiculo> consultarVehiculos() {
+		Query query = entityManager.createNamedQuery(VEHICULOS_FIND);
+
+		return query.getResultList();
 	}
 }

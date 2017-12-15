@@ -1,5 +1,7 @@
 package dominio.repositorio;
 
+import java.util.List;
+
 import dominio.Vehiculo;
 import persistencia.entidad.VehiculoEntity;
 
@@ -13,6 +15,8 @@ public interface RepositorioVehiculo {
 	VehiculoEntity obtenerVehiculoEntityPorPlaca(String placa);
 	
 	void borrarContenidoTablaVehiculo();
+	
+	List<Vehiculo> consultarVehiculos();
 	
 	
 }
