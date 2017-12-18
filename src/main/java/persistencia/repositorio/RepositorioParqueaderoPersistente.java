@@ -80,16 +80,10 @@ public class RepositorioParqueaderoPersistente implements RepositorioParqueadero
 
 	@Override
 	public ParqueaderoEntity obtenerParqueaderoEntity(String placa) {
-		try {
 			Query query = entityManager.createNamedQuery(PARQUEADERO_FIND_BY_VEHICULO);
 			query.setParameter(PLACA, placa);
-			return (ParqueaderoEntity) query.getSingleResult();
-		}catch(NoResultException e) {
-			return null;
-		}
-		
+			return (ParqueaderoEntity) query.getSingleResult();	
 	}
-	
 	
 
 	@Override
@@ -106,7 +100,6 @@ public class RepositorioParqueaderoPersistente implements RepositorioParqueadero
 	@Override
 	public List<Parqueadero> consultarParqueadero() {
 		Query query = entityManager.createNamedQuery(PARQUEADERO_FIND_ALL);
-
 		return query.getResultList();
 	}
 

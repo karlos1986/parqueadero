@@ -12,7 +12,7 @@ import persistencia.entidad.ParqueaderoEntity;
 
 public class Vigilante {
 	
-	public static final String El_VEHICULO_NO_ESTA_AUTORIZADO = "El vehiculo no esta autorizado a ingresar";
+	public static final String EL_VEHICULO_NO_ESTA_AUTORIZADO = "El vehiculo no esta autorizado a ingresar";
 	public static final String NO_HAY_CELDAS_DISPONIBLES = "No Hay Celdas Disponibles";
 	
 	private RepositorioVehiculo repositorioVehiculo;
@@ -27,7 +27,7 @@ public class Vigilante {
 	public boolean registrarVehiculo(Vehiculo vehiculo) {
 		Calendar calendar = Calendar.getInstance(); 
 		if(validarCondicionDias(calendar) && validarCondicionPlaca(vehiculo.getPlaca())) {
-			throw new IngresarExcepcion(El_VEHICULO_NO_ESTA_AUTORIZADO);
+			throw new IngresarExcepcion(EL_VEHICULO_NO_ESTA_AUTORIZADO);
 		}
 		if(vehiculo.getTipo() == 1 && validarCeldaDisponibleCarro()) {
 			parquearCarro(vehiculo);
@@ -66,41 +66,35 @@ public class Vigilante {
 		repositorioParqueadero.agregar(parqueaderoEntity);	
 	}
 
-	public boolean validarCondicionPlaca(String Placa) {
-		return (Placa.charAt(0) == 'A')?true:false;
+	public boolean validarCondicionPlaca(String placa) {
+		return (placa.charAt(0) == 'A');
 	}
 
 	public boolean validarCondicionDias(Calendar calendar) {
-		if (calendar.get(Calendar.DAY_OF_WEEK) != 1 || calendar.get(Calendar.DAY_OF_WEEK) != 2){//1 -> Domingo , 2 -> Lunes
-				return true;		
-		}
-		return false;
+		return (calendar.get(Calendar.DAY_OF_WEEK) != 1 || calendar.get(Calendar.DAY_OF_WEEK) != 2);//1 -> Domingo , 2 -> Lunes
 	}
 
-	public double salidaVehiculo(Vehiculo vehiculo) {	
+	public double salidaVehiculo(Vehiculo vehiculo) {
 		double valorFinal = 0;
-		if(vehiculo.getTipo() == 1) {
+		if (vehiculo.getTipo() == 1) {
 			Carro carro = (Carro) vehiculo;
-			ParqueaderoCarro parqueaderoCarro = (ParqueaderoCarro)
-					ParqueaderoBuilder.convertirADominio(repositorioParqueadero.obtenerParqueaderoEntity(carro.getPlaca()));
-			if (parqueaderoCarro != null) {
-				parqueaderoCarro.setDateEgreso(new Date());
-				repositorioParqueadero.registrarSalidaVehiculo(vehiculo.getPlaca(),new Date());
-				valorFinal = calcularCobroTiempoCarro(parqueaderoCarro);
-				return  valorFinal;
-			}		
-		}if(vehiculo.getTipo() == 2) {
-			Moto moto = (Moto) vehiculo;
-			ParqueaderoMoto parqueaderoMoto = (ParqueaderoMoto)
-					ParqueaderoBuilder.convertirADominio(repositorioParqueadero.obtenerParqueaderoEntity(vehiculo.getPlaca()));
-			if (parqueaderoMoto != null) {
-				parqueaderoMoto.setDateEgreso(new Date());
-				repositorioParqueadero.registrarSalidaVehiculo(vehiculo.getPlaca(),new Date());
-				valorFinal = calcularCobroTiempoMoto(parqueaderoMoto) + cobroCilindraje(moto,parqueaderoMoto);
-				return valorFinal;
-			}
+			ParqueaderoCarro parqueaderoCarro = (ParqueaderoCarro) ParqueaderoBuilder
+					.convertirADominio(repositorioParqueadero.obtenerParqueaderoEntity(carro.getPlaca()));
+			parqueaderoCarro.setDateEgreso(new Date());
+			repositorioParqueadero.registrarSalidaVehiculo(vehiculo.getPlaca(), new Date());
+			valorFinal = calcularCobroTiempoCarro(parqueaderoCarro);
+			return valorFinal;
 		}
-		return 0; //no se encontro registro 
+		if (vehiculo.getTipo() == 2) {
+			Moto moto = (Moto) vehiculo;
+			ParqueaderoMoto parqueaderoMoto = (ParqueaderoMoto) ParqueaderoBuilder
+					.convertirADominio(repositorioParqueadero.obtenerParqueaderoEntity(vehiculo.getPlaca()));
+			parqueaderoMoto.setDateEgreso(new Date());
+			repositorioParqueadero.registrarSalidaVehiculo(vehiculo.getPlaca(), new Date());
+			valorFinal = calcularCobroTiempoMoto(parqueaderoMoto) + cobroCilindraje(moto, parqueaderoMoto);
+			return valorFinal;
+		}
+		return 0;
 	}
 	
 	private double cobroCilindraje(Moto moto,ParqueaderoMoto parqueaderoMoto) {	
@@ -119,25 +113,24 @@ public class Vigilante {
 
 	public double calcularCobroTiempo(Double valorDia,Double valorHora,int tiempo) {
 		double valorTotal = 0;
-		valorTotal += valorDia* (tiempo / 1440);
+		valorTotal += valorDia* (int)(tiempo / 1440f);
 		tiempo =  (tiempo % 1440);
 		if((tiempo >= 540)) {
-			return valorTotal += valorDia;
+			valorTotal += valorDia;
+			return valorTotal;
 		}else {
-			valorTotal += valorHora*(tiempo / 60);
+			valorTotal += valorHora*(int)(tiempo / 60f);
 			tiempo =  (tiempo % 60);
 			return (tiempo > 0)?valorTotal += valorHora:valorTotal;
 		}
 	}
 
 	public List<Vehiculo> consultarVehiculos() {
-		List<Vehiculo> vehiculos = repositorioVehiculo.consultarVehiculos();
-        return vehiculos;
+        return repositorioVehiculo.consultarVehiculos();
 	}
 	
 	public List<Parqueadero> consultarParqueadero() {
-		List<Parqueadero> parqueadero = repositorioParqueadero.consultarParqueadero();
-        return parqueadero;
+        return repositorioParqueadero.consultarParqueadero();
 	}
 
 }

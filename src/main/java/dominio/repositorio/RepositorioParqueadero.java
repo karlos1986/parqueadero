@@ -21,7 +21,7 @@ public interface RepositorioParqueadero {
 	
 	int consultarMotosEnElParqueados();
 	
-	void registrarSalidaVehiculo(String Placa,Date date);
+	void registrarSalidaVehiculo(String placa,Date date);
 	
 	public void borrarContenidoTablaParqueadero() ;
 	

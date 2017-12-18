@@ -2,16 +2,17 @@ package controlador;
 
 import java.util.List;
 
-import javax.ws.rs.OPTIONS;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import dominio.Moto;
+
 import dominio.Parqueadero;
 import servicio.ServicioIngresar;
 
@@ -26,35 +27,25 @@ public class RegistroVehiculoControlador {
 	        this.servicioIngresar = servicioIngresar;
 	    }
 	
-	@RequestMapping("/ingreso")
-	public String ingreso(@RequestParam(value = "placa", required = true) String placa,
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(method = RequestMethod.POST, path = "/ingreso")
+	public Response ingreso(@RequestParam(value = "placa", required = true) String placa,
 			@RequestParam(value = "tipo", required = true) int tipo,
 			@RequestParam(value = "cilindraje", required = false, defaultValue = "0") int cilindraje) {
-		//return Response.status(200).entity(servicioIngresar.ingresarVehiculo(placa, tipo, cilindraje)).build();	
-		return servicioIngresar.ingresarVehiculo(placa, tipo, cilindraje);
+		return Response.status(200).build();	
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping("/pago")
-	public String pago(@RequestParam(value = "placa", required = true) String placa){
-		String output = "El Valor Es: "+ servicioIngresar.salidaVehiculos(placa)+" $";
-		return output;
-		//return Response.status(200).entity(output).build();
-		/*return Response.ok(output)
-			      .header("Access-Control-Allow-Origin", "http://evil.com/")
-			      .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-			      .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();*/
+	public Response pago(@RequestParam(value = "placa", required = true) String placa){
+		return Response.status(200).entity("El Valor Es: "+ servicioIngresar.salidaVehiculos(placa)+" $").build();
+		
 	}
 	
-	@OPTIONS
+	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping("/consulta")
 	public List<Parqueadero> consulta(){
-		return servicioIngresar.listaDeVehiculos();
-		//return Response.ok((servicioIngresar.listaDeVehiculos())).header("Access-Control-Allow-Origin", "*").build();
-		//return Response.status(200).entity(servicioIngresar.listaDeVehiculos()).build();	
-		/*return Response.ok((servicioIngresar.listaDeVehiculos()))
-			      .header("Access-Control-Allow-Origin", "http://evil.com/")
-			      .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-			      .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();*/
+		return servicioIngresar.listaDeVehiculos();	
 	}
 	
 }

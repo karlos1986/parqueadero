@@ -8,7 +8,7 @@ import persistencia.entidad.VehiculoEntity;
 
 public class VehiculoBuilder {
 	
-	public VehiculoBuilder() {}
+	private VehiculoBuilder() {}
 		
 		public static Vehiculo convertirADominio(VehiculoEntity vehiculoEntity) {
 
@@ -27,17 +27,18 @@ public class VehiculoBuilder {
 			return vehiculoEntity;
 		}
 		
-		public static Vehiculo convertirADominioPorTipo(VehiculoEntity vehiculoEntity) {
-			Vehiculo vehiculo = null;
-			switch (vehiculoEntity.getTipo()) {
-				case 1:
-					vehiculo = new Carro(vehiculoEntity.getPlaca(),vehiculoEntity.getTipo());
-					break;
-				case 2:
-					vehiculo = new Moto(vehiculoEntity.getPlaca(),vehiculoEntity.getTipo(),vehiculoEntity.getCilindraje());
-					break;
-			}
-			return vehiculo;	
+	public static Vehiculo convertirADominioPorTipo(VehiculoEntity vehiculoEntity) {
+		Vehiculo vehiculo = null;
+		if (vehiculoEntity.getTipo() == 1) {
+
+			vehiculo = new Carro(vehiculoEntity.getPlaca(), vehiculoEntity.getTipo());
+
+		} else {
+
+			vehiculo = new Moto(vehiculoEntity.getPlaca(), vehiculoEntity.getTipo(), vehiculoEntity.getCilindraje());
+
 		}
+		return vehiculo;
+	}
 
 }
