@@ -1,7 +1,5 @@
 package controlador;
 
-import java.util.List;
-
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,40 +10,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import dominio.Parqueadero;
-import servicio.ServicioIngresar;
+import servicio.ServicioParqueadero;
 
 @Component
 @RestController
-public class RegistroVehiculoControlador {
+public class VehiculoControlador {
 	
 	@Autowired
-	private ServicioIngresar servicioIngresar;
+	private ServicioParqueadero servicioParqueadero;
 
-	public RegistroVehiculoControlador(ServicioIngresar servicioIngresar) {
-	        this.servicioIngresar = servicioIngresar;
+	public VehiculoControlador(ServicioParqueadero servicioIngresar) {
+	        this.servicioParqueadero = servicioIngresar;
 	    }
 	
-	@CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin()
 	@RequestMapping(method = RequestMethod.POST, path = "/ingreso")
 	public Response ingreso(@RequestParam(value = "placa", required = true) String placa,
 			@RequestParam(value = "tipo", required = true) int tipo,
 			@RequestParam(value = "cilindraje", required = false, defaultValue = "0") int cilindraje) {
-		return Response.status(200).build();	
+		return servicioParqueadero.ingresarVehiculo(placa, tipo, cilindraje);	
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping("/pago")
 	public Response pago(@RequestParam(value = "placa", required = true) String placa){
-		return Response.status(200).entity("El Valor Es: "+ servicioIngresar.salidaVehiculos(placa)+" $").build();
+		return servicioParqueadero.salidaVehiculos(placa);
 		
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping("/consulta")
-	public List<Parqueadero> consulta(){
-		return servicioIngresar.listaDeVehiculos();	
+	public Response consulta(){
+		return servicioParqueadero.listaDeVehiculos();
 	}
 	
 }

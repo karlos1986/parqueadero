@@ -2,10 +2,12 @@ package dominio.integracion;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.Date;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,17 +16,16 @@ import dominio.Moto;
 import dominio.ParqueaderoCarro;
 import dominio.ParqueaderoMoto;
 import dominio.Vigilante;
+import dominio.excepcion.CalcularCobroExcepcion;
 import dominio.repositorio.RepositorioParqueadero;
 import dominio.repositorio.RepositorioVehiculo;
-import persistencia.builder.ParqueaderoBuilder;
-import persistencia.entidad.ParqueaderoEntity;
 import persistencia.sistema.SistemaDePersistencia;
+import repuestas.Recibo;
 
 public class VigilanteTest {
 	
 	private static final String PLACA = "AAA001";
 	private static final String PLACA1 = "BBB001";
-	private static final String PLACA2 = "BBB002";
 	private static final int TIPO_CARRO = 1;
 	private static final int TIPO_MOTO = 2;
 	private static final int CILINDRAJE_MOTO = 600;
@@ -116,10 +117,10 @@ public class VigilanteTest {
 		vigilante.parquearCarro(carro);
 		
 		// act 
-		double valorTotal = vigilante.salidaVehiculo(carro);
+		Recibo recibo = vigilante.salidaVehiculo(carro.getPlaca());
 		
 		// assert
-		assertEquals(VALOR_TOTAL,valorTotal,0.00);	
+		assertEquals(VALOR_TOTAL,recibo.getValorCobro(),0.00);	
 	}
 	
 	@Test
@@ -131,10 +132,10 @@ public class VigilanteTest {
 		vigilante.parquearMoto(moto);
 		
 		// act 
-		double valorTotal = vigilante.salidaVehiculo(moto);
+		Recibo recibo = vigilante.salidaVehiculo(moto.getPlaca());
 		
 		// assert
-		assertEquals(VALOR_TOTAL_MOTO_600CC,valorTotal,0.00);	
+		assertEquals(VALOR_TOTAL_MOTO_600CC,recibo.getValorCobro(),0.00);	
 	}
 	
 	@Test
@@ -146,11 +147,29 @@ public class VigilanteTest {
 		vigilante.parquearMoto(moto);
 		
 		// act 
-		double valorTotal = vigilante.salidaVehiculo(moto);
+		Recibo recibo = vigilante.salidaVehiculo(moto.getPlaca());
 		
 		// assert
-		assertEquals(VALOR_TOTAL,valorTotal,0.00);	
+		assertEquals(VALOR_TOTAL,recibo.getValorCobro(),0.00);	
 	}
 	
+	@Test
+	public void salidaMotoSinRegistro() {
+
+		// arrange
+		Vigilante vigilante = new Vigilante(repositorioVehiculo, repositorioParqueadero);
+
+		try {
+			// act
+			vigilante.salidaVehiculo(PLACA);
+
+			// assert
+			fail();
+
+		} catch (CalcularCobroExcepcion e) {
+			// assert
+			Assert.assertEquals(Vigilante.NO_SE_ENCONTRO_REGISTRO, e.getMessage());
+		}
+	}
 	
 }

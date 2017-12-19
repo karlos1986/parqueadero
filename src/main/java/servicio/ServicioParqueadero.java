@@ -1,9 +1,7 @@
 package servicio;
 
 
-import java.util.List;
-
-import javax.persistence.NoResultException;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,70 +9,60 @@ import org.springframework.stereotype.Service;
 
 import dominio.Carro;
 import dominio.Moto;
-import dominio.Parqueadero;
-import dominio.Vehiculo;
 import dominio.Vigilante;
+import dominio.excepcion.CalcularCobroExcepcion;
 import dominio.excepcion.IngresarExcepcion;
 import dominio.repositorio.RepositorioParqueadero;
 import dominio.repositorio.RepositorioVehiculo;
 import persistencia.sistema.SistemaDePersistencia;
-import repuestas.Recibo;
 
 @Component
 @Service
-public class ServicioIngresar {
+public class ServicioParqueadero {
 	
-	public static final String EL_VEHICULO_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El Vehiculo Se Encuentra En El Parqueadero";
-	public static final String INGRESO_CORRECTO = "Ingreso Correcto";
-
-
 	@Autowired
 	private SistemaDePersistencia sistemaPersistencia;
 	private RepositorioParqueadero repositorioParqueadero;
 	private RepositorioVehiculo repositorioVehiculo;
 	
 
-	public ServicioIngresar() {
+	public ServicioParqueadero() {
 		this.sistemaPersistencia = SistemaDePersistencia.getInstance();
 		this.repositorioParqueadero = sistemaPersistencia.obtenerRepositorioParqueadero();
 		this.repositorioVehiculo = sistemaPersistencia.obtenerRepositorioVehiculo();
 	}
 
-	public Recibo ingresarVehiculo(String placa, int tipo, int cilindraje) {
+	public Response ingresarVehiculo(String placa, int tipo, int cilindraje) {
 		try {
 			Vigilante vigilante = new Vigilante(repositorioVehiculo, repositorioParqueadero);
-			if(repositorioParqueadero.obtenerParqueaderoEntity(placa) != null) {
-				return new Recibo(null,EL_VEHICULO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
-			}
 			if (tipo == 1) {
 				Carro carro = new Carro(placa, tipo);
 				vigilante.registrarVehiculo(carro);
-				return new Recibo(carro,INGRESO_CORRECTO);
+				return Response.status(201).build();
 			}
 			if (tipo == 2) {
 				Moto moto = new Moto(placa, tipo, cilindraje);
 				vigilante.registrarVehiculo(moto);
-				return new Recibo(moto,INGRESO_CORRECTO);
-			}
-			return new Recibo(null,"No Se Ingreso El Vehiculo");
+				return Response.status(201).build();			
+				}
 		} catch (IngresarExcepcion e) {
-			return new Recibo(null,e.getMessage());
-		}	
+			 return Response.status(403).entity(e.getMessage()).build();
+		}
+		return Response.status(400).build();
 	}
 
-	public double salidaVehiculos(String placa) {
+	public Response salidaVehiculos(String placa) {
 		try {
 			Vigilante vigilante = new Vigilante(repositorioVehiculo, repositorioParqueadero);
-			Vehiculo vehiculo = repositorioVehiculo.obtenerPorPlaca(placa);
-			return (vehiculo == null)? 0.00 : vigilante.salidaVehiculo(vehiculo);
-		}catch(NoResultException e) {
-			return 0.00;
-		}	
+			return Response.status(200).entity(vigilante.salidaVehiculo(placa)).build();
+		}catch(CalcularCobroExcepcion e) {
+			return Response.status(404).entity(e.getMessage()).build();
+		}		
 	}
 	
-	public List<Parqueadero> listaDeVehiculos(){
+	public Response listaDeVehiculos(){
 		Vigilante vigilante = new Vigilante(repositorioVehiculo, repositorioParqueadero);
-		return vigilante.consultarParqueadero();
+		return Response.status(200).entity(vigilante.consultarParqueadero()).build();
 	}
 }
 

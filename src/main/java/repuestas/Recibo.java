@@ -8,12 +8,21 @@ import dominio.Vehiculo;
 public class Recibo {
 	
 	private Vehiculo vehiculo;
-	private String mensaje;
-		
+	private double valorCobro;
+	
+	public double getValorCobro() {
+		return valorCobro;
+	}
 
-	public Recibo(Vehiculo vehiculo ,String mensaje) {
+
+	public Vehiculo getVehiculo() {
+		return vehiculo;
+	}
+
+
+	public Recibo(Vehiculo vehiculo ,double valorCobro) {
 		this.vehiculo = vehiculo;
-		this.mensaje = mensaje;
+		this.valorCobro = valorCobro;
 	}
 
 }

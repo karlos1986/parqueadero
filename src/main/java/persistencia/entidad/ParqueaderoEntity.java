@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 	@NamedQuery(name = "Parqueadero.findCeldasMoto", query = "SELECT COUNT (*) FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.tipo = 2 "),
 	@NamedQuery(name = "Parqueadero.findCeldasCarro", query = "SELECT COUNT (*) FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.tipo = 1 "),
 	@NamedQuery(name = "Parqueadero.findForVehiculo", query = "SELECT parqueadero FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.placa = :placa"),
+	@NamedQuery(name = "Parqueadero.findCountForVehiculo", query = "SELECT COUNT (*) FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null AND parqueadero.vehiculo.placa = :placa"),
 	@NamedQuery(name = "Parqueadero.findAll", query = "SELECT parqueadero FROM Parqueadero parqueadero WHERE parqueadero.dateEgreso is null")})	
 public class ParqueaderoEntity {
 	

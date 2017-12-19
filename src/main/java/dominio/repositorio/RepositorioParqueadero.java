@@ -26,4 +26,6 @@ public interface RepositorioParqueadero {
 	public void borrarContenidoTablaParqueadero() ;
 	
 	public List<Parqueadero> consultarParqueadero();
+
+	int obtenerCountParqueaderoEntity(String placa);
 }

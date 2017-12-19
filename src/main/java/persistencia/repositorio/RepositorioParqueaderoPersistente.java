@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import dominio.Parqueadero;
@@ -21,9 +20,10 @@ public class RepositorioParqueaderoPersistente implements RepositorioParqueadero
 	private static final String DELETE_PARQUEADERO = "delete Parqueadero";
 	private static final String PARQUEADERO_FIND_BY_VEHICULO= "Parqueadero.findForVehiculo";
 	private static final String PARQUEADERO_FIND_ALL= "Parqueadero.findAll";
+	private static final String PARQUEADERO_FIND_COUNT_BY_VEHICULO= "Parqueadero.findCountForVehiculo";
+
 	
-
-
+	
 	private EntityManager entityManager;
 
 	public RepositorioParqueaderoPersistente(EntityManager entityManager) {
@@ -85,7 +85,14 @@ public class RepositorioParqueaderoPersistente implements RepositorioParqueadero
 			return (ParqueaderoEntity) query.getSingleResult();	
 	}
 	
-
+	@Override
+	public int obtenerCountParqueaderoEntity(String placa) {
+			Query query = entityManager.createNamedQuery(PARQUEADERO_FIND_COUNT_BY_VEHICULO);
+			query.setParameter(PLACA, placa);
+			Long result =  (Long) query.getSingleResult();
+			return result.intValue();
+	}
+	
 	@Override
 	public void registrarSalidaVehiculo(String placa,Date date) {
 		entityManager.getTransaction().begin();

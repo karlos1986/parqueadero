@@ -37,7 +37,6 @@ public class RepositorioVehiculoPersistente implements RepositorioVehiculo, Repo
 		} catch (NoResultException e) {
 			return null;
 		}
-
 	}
 
 	@Override
