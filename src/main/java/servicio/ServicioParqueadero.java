@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import dominio.Carro;
-import dominio.Moto;
+import dominio.Vehiculo;
 import dominio.Vigilante;
 import dominio.excepcion.CalcularCobroExcepcion;
 import dominio.excepcion.IngresarExcepcion;
@@ -32,23 +31,14 @@ public class ServicioParqueadero {
 		this.repositorioVehiculo = sistemaPersistencia.obtenerRepositorioVehiculo();
 	}
 
-	public Response ingresarVehiculo(String placa, int tipo, int cilindraje) {
+	public Response ingresarVehiculo(Vehiculo vehiculo) {
 		try {
 			Vigilante vigilante = new Vigilante(repositorioVehiculo, repositorioParqueadero);
-			if (tipo == 1) {
-				Carro carro = new Carro(placa, tipo);
-				vigilante.registrarVehiculo(carro);
-				return Response.status(201).build();
-			}
-			if (tipo == 2) {
-				Moto moto = new Moto(placa, tipo, cilindraje);
-				vigilante.registrarVehiculo(moto);
-				return Response.status(201).build();			
-				}
+			vigilante.registrarVehiculo(vehiculo);
+			return Response.status(201).build();
 		} catch (IngresarExcepcion e) {
-			 return Response.status(403).entity(e.getMessage()).build();
+			return Response.status(403).entity(e.getMessage()).build();
 		}
-		return Response.status(400).build();
 	}
 
 	public Response salidaVehiculos(String placa) {

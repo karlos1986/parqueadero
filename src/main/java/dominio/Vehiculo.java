@@ -1,5 +1,8 @@
 package dominio;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public abstract class Vehiculo {
 	
 	protected String placa;

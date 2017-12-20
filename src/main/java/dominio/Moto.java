@@ -14,5 +14,7 @@ public class Moto extends Vehiculo  {
 	public int getCilindraje() {
 		return cilindraje;
 	}
+	
+	protected Moto() {}
 
 }

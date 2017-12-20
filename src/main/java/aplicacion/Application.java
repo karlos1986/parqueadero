@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 @Configuration
-@ComponentScan(basePackages = {"controlador","servicio","persistencia.sistema"})
+@ComponentScan(basePackages = {"controlador","servicio","persistencia.sistema","dominio"})
 public class Application {
 
     public static void main(String[] args) {

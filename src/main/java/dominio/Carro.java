@@ -8,4 +8,5 @@ public class Carro extends Vehiculo{
 		this.tipo = tipo;
 	}
 
+	protected Carro() {}
 }
