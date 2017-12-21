@@ -28,13 +28,13 @@ import persistencia.sistema.SistemaDePersistencia;
 @ContextConfiguration(classes = { Application.class })
 public class VehiculoControladorTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    
-   @MockBean
-  private SistemaDePersistencia sistemaDePersistencia;
-	
-    @Test
+	@Autowired
+	private MockMvc mockMvc;
+
+	@MockBean
+	private SistemaDePersistencia sistemaDePersistencia;
+
+	@Test
     public void postIngresoCarroRetornaStatus201() throws Exception {
  
         mockMvc.perform(post("/ingreso/carro")
