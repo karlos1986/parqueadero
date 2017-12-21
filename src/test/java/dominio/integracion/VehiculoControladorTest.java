@@ -8,22 +8,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import aplicacion.Application;
+import controlador.VehiculoControlador;
+import persistencia.sistema.SistemaDePersistencia;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Application.class})
-@AutoConfigureMockMvc
+//@SpringBootTest(classes = { Application.class })
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+@WebMvcTest(VehiculoControlador.class)
+@ContextConfiguration(classes = { Application.class })
 public class VehiculoControladorTest {
 
     @Autowired
     private MockMvc mockMvc;
-
+    
+   @MockBean
+  private SistemaDePersistencia sistemaDePersistencia;
+	
     @Test
     public void postIngresoCarroRetornaStatus201() throws Exception {
  
@@ -33,8 +43,8 @@ public class VehiculoControladorTest {
                 .andExpect(status().isOk()).andExpect(jsonPath("status").value(201));;
 
     }
-    
-    @Test
+  
+  @Test
     public void postIngresoMotoRetornaStatus201() throws Exception {
  
         mockMvc.perform(post("/ingreso/moto")
@@ -43,7 +53,7 @@ public class VehiculoControladorTest {
                 .andExpect(status().isOk()).andExpect(jsonPath("status").value(201));
 
     }
-    
+   
     @Test
     public void postIngresoMotoRepetidaRetornaStatus403() throws Exception {
  
@@ -73,7 +83,7 @@ public class VehiculoControladorTest {
     @Test
     public void getCobroMotoNoRegistradaRetornaStatus404() throws Exception {
  
-    	mockMvc.perform(get("/pago?placa=","TEA325"))
+    	mockMvc.perform(get("/pago?placa=TEA325"))
                 .andExpect(status().isOk()).andExpect(jsonPath("status").value(404))
                 .andExpect(jsonPath("entity").value("No se encontro registro"));
     }

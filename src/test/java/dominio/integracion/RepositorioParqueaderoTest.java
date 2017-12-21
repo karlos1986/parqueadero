@@ -99,7 +99,7 @@ public class RepositorioParqueaderoTest {
 		// act 
 		carrosParqueados = repositorioParqueadero.consultarCarrosEnElParqueadero();
 		// assert
-		assertEquals(0,carrosParqueados);
+		assertEquals(2,carrosParqueados);
 		
 	}
 	
